@@ -46,6 +46,7 @@ public class LoginController {
 	@PostMapping("/register")
 	public ResponseEntity<?> register(@RequestBody User user) {
 		
+		System.out.println("calling register in controller");
 		 return new ResponseEntity<>(userService.register(user),HttpStatus.OK);
 		
 		//return "registered";

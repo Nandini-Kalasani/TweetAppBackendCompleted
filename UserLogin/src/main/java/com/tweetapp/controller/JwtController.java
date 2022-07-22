@@ -43,26 +43,34 @@ public class JwtController {
 	
 	@PostMapping(path = "/token", produces = MediaType.APPLICATION_JSON_VALUE)
 //	@ApiOperation(value="Gets all the users", response=JwtResponse.class)
-	public ResponseEntity<JwtResponse> generateToken(@RequestBody LoginRequest jwtRequest) throws Exception{
+	public ResponseEntity<?> generateToken(@RequestBody LoginRequest jwtRequest) throws Exception{
 		
-		System.out.println(jwtRequest);
+		/*System.out.println(jwtRequest);
 		try {
 			System.out.println("try ethod " +jwtRequest.getLoginId());
 			authenicationManager.authenticate(new UsernamePasswordAuthenticationToken(jwtRequest.getLoginId(), jwtRequest.getPassword()));
 			System.out.println("auth");
 			
-		}catch(UsernameNotFoundException e) {
+		}catch(Exception e) {
 			
-			e.printStackTrace();
-//			throw new Exception("Bad crdentials");
+			//e.printStackTrace();
+			System.out.println("Bad credentials");
+			//throw new Exception("Bad crdentials: "+e);
 		}
-		
+		*/
 		//SecurityContextHolder.getContext().setAuthentication(auth);
 
 		//after no exception area
 		System.out.println("catch");
-		UserDetails userDetails = userdetailsService.loadUserByUsername(jwtRequest.getLoginId());
-		
+		UserDetails userDetails;
+		try {
+		 userDetails = userdetailsService.loadUserByUsername(jwtRequest.getLoginId());
+		}
+		catch(Exception e) {
+		   userDetails=null;
+		   return new ResponseEntity<>(e,HttpStatus.BAD_REQUEST);
+		   //System.out.println(e);
+		}
 		final String Token=jwtutil.generateToken(userDetails);
 		
 		System.out.println("JWT" + Token);
@@ -84,6 +92,7 @@ public class JwtController {
 	@GetMapping("/validate/{username}")
 	public ResponseEntity<?> getValidity(@RequestHeader("Authorization") String token,@PathVariable("username") String cuser){
 		System.out.println("called get validity");
+		System.out.println("while validating "+cuser);
 		JwtResponse res=new JwtResponse();
 		if(token==null) {
 			

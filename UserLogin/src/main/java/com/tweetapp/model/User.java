@@ -16,12 +16,12 @@ import lombok.RequiredArgsConstructor;
 @Document("User")
 public class User {//implements UserDetails{
 
-	@Override
+	/*@Override
 	public String toString() {
 		return "User [firstName=" + firstName + ", lastName=" + lastName + ", email=" + email + ", loginId=" + loginId
 				+ ", password=" + password + ", confirmPassword=" + confirmPassword + ", contactNumber=" + contactNumber
 				+ ", resetPwdToken=" + resetPwdToken + "]";
-	}
+	}*/
 	@NonNull
 	public String firstName;
 	

@@ -1,13 +1,16 @@
 package com.tweetapp.posttweet.serviceImpl;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import com.tweetapp.posttweet.fiegnClient.AuthClient;
+import com.tweetapp.posttweet.model.ExceptionMessage;
 import com.tweetapp.posttweet.model.Reply;
 import com.tweetapp.posttweet.model.Tweet;
 import com.tweetapp.posttweet.repo.ReplyRepo;
@@ -31,14 +34,21 @@ public class TweetServiceImpl implements TweetService{
 	@Override
 	public Object getAllTweets(String token,String loginId) {
 		// TODO Auto-generated method stub
-		
+		System.out.println("entered  method getall tweets");
 		if(isSessionValid(token,loginId)) {
+			//System.out.println("session valid");
 		List<Tweet> tweets=tweetRepo.findByUserLoginId(loginId);
 		kafkaTemplate.send(topic,"getting all tweets of "+loginId);
-		return tweets;
+		
+		/*if(tweets.size()==0)
+			return new ExceptionMessage("No posts to display");*/
+		 return tweets;
+	
 		}
-		else
-			return "session invalid";
+		else {
+			//System.out.println("invalid");
+			return new String("session invalid");
+		}
 	}
 
 	@Override
@@ -72,8 +82,9 @@ public class TweetServiceImpl implements TweetService{
 		kafkaTemplate.send(topic,cuser+" Updatating tweet "+tweet.getTweetId());
 		return "Tweet Updated";
 		}
-		else
-			return "Session Invalid";
+		else {
+			return "session invalid";
+		}
 	}
 
 	@Override
@@ -118,7 +129,7 @@ public class TweetServiceImpl implements TweetService{
 		
 	}
 	public boolean isSessionValid(String token,String cuser) {
-	   
+	   //System.out.println("called is isession valid "+token+" "+cuser);
 		return authClient.getValidity(token,cuser);
 	   
 	   
