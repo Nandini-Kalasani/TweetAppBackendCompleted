@@ -34,6 +34,9 @@ public class JwtController {
 	private CustUserDetailsService userdetailsService;
 	
 	
+	//private UserDetails userdetailsService;
+	
+	
 	
 	@Autowired
 	private JwtUtil jwtutil;
@@ -45,7 +48,7 @@ public class JwtController {
 //	@ApiOperation(value="Gets all the users", response=JwtResponse.class)
 	public ResponseEntity<?> generateToken(@RequestBody LoginRequest jwtRequest) throws Exception{
 		
-		/*System.out.println(jwtRequest);
+		System.out.println(jwtRequest);
 		try {
 			System.out.println("try ethod " +jwtRequest.getLoginId());
 			authenicationManager.authenticate(new UsernamePasswordAuthenticationToken(jwtRequest.getLoginId(), jwtRequest.getPassword()));
@@ -57,11 +60,12 @@ public class JwtController {
 			System.out.println("Bad credentials");
 			//throw new Exception("Bad crdentials: "+e);
 		}
-		*/
+		
 		//SecurityContextHolder.getContext().setAuthentication(auth);
 
 		//after no exception area
 		System.out.println("catch");
+		
 		UserDetails userDetails;
 		try {
 		 userDetails = userdetailsService.loadUserByUsername(jwtRequest.getLoginId());
@@ -71,6 +75,7 @@ public class JwtController {
 		   return new ResponseEntity<>(e,HttpStatus.BAD_REQUEST);
 		   //System.out.println(e);
 		}
+		
 		final String Token=jwtutil.generateToken(userDetails);
 		
 		System.out.println("JWT" + Token);
