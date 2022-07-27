@@ -102,6 +102,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 			.antMatchers("/token").permitAll()
 			.antMatchers("/api/v1.0/tweets/register").permitAll()
 			.antMatchers("/validate/**").permitAll()
+			.antMatchers("/api/v1.0/tweets/forgot").permitAll()
 			//.anyRequest().authenticated()
 			//.antMatchers("/api/v1.0/tweets/login").permitAll()
 			

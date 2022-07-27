@@ -24,6 +24,7 @@ import com.tweetapp.posttweet.service.ReplyService;
 //@RequestMapping("/api/v1.0/reply")
 //@CrossOrigin(origins = "http://localhost:4200",allowedHeaders = "*")
 //@CrossOrigin(origins = "*")
+@CrossOrigin(origins="http://localhost:4200")
 public class ReplyController {
 
 	@Autowired

@@ -50,8 +50,9 @@ public class TweetController {
 	
 	}
 	@PostMapping("{username}/like/{id}")
-	public ResponseEntity<?> like(@RequestHeader("Authorization") String token,@PathVariable String username,@PathVariable String id) {
+	public ResponseEntity<?> like(@RequestHeader(value="Authorization",required=false) String token,@PathVariable String username,@PathVariable String id) {
 		//System.out.println("Id "+id);
+		System.out.println("token from like method "+token);
 		int l=tweetService.like(token,username,id);
 		//System.out.println("After like method");
     if(l!=-1)

@@ -40,11 +40,12 @@ public class ReplyServiceImpl implements ReplyService{
 	@Override
 	public String replyTweet(String token,String username,Reply reply,String id) {
 		// TODO Auto-generated method stub
-		if(isSessionValid(token,username)) {
+		if(token!=null) {
 		Calendar calendar = Calendar.getInstance();
 		Date now = calendar.getTime();
 		String date=now.toString();
 		reply.setRepliedOn(date);
+		reply.setTweetId(id);
 		replyRepo.save(reply);
 		kafkaTemplate.send(topic,username+" replied to tweet "+id);
 		return "Reply added";

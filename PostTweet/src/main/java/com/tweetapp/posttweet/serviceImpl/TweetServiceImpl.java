@@ -35,7 +35,7 @@ public class TweetServiceImpl implements TweetService{
 	public Object getAllTweets(String token,String loginId) {
 		// TODO Auto-generated method stub
 		System.out.println("entered  method getall tweets");
-		if(isSessionValid(token,loginId)) {
+		if(token!=null&&loginId!=null) {
 			//System.out.println("session valid");
 		List<Tweet> tweets=tweetRepo.findByUserLoginId(loginId);
 		kafkaTemplate.send(topic,"getting all tweets of "+loginId);
@@ -63,7 +63,7 @@ public class TweetServiceImpl implements TweetService{
 		
 		tweetRepo.save(tweet);
 		kafkaTemplate.send(topic,"saving tweet");
-		return "tweet saved";
+		return "Tweet Posted";
 		}
 		else
 			return "session invalid";
@@ -89,7 +89,7 @@ public class TweetServiceImpl implements TweetService{
 
 	@Override
 	public int like(String token,String cuser,String tweetId) {
-		if(isSessionValid(token,cuser))
+		if(cuser!=null)
 		{
 		// TODO Auto-generated method stub
 		Tweet t=tweetRepo.findByTweetId(tweetId);
@@ -129,7 +129,7 @@ public class TweetServiceImpl implements TweetService{
 		
 	}
 	public boolean isSessionValid(String token,String cuser) {
-	   //System.out.println("called is isession valid "+token+" "+cuser);
+	   System.out.println("called is isession valid "+token+" "+cuser);
 		return authClient.getValidity(token,cuser);
 	   
 	   
