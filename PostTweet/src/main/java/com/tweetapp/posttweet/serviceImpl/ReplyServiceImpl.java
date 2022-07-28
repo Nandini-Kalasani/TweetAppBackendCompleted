@@ -57,7 +57,7 @@ public class ReplyServiceImpl implements ReplyService{
 	@Override
 	public List<Reply> getRepliesByTweet(String token,String cuser,String tweetId) {
 		// TODO Auto-generated method stub
-		if(isSessionValid(token,cuser))
+		if(token!=null)
 		{
 		List<Reply> replies=replyRepo.findByTweetId(tweetId);
 		kafkaTemplate.send(topic,cuser+" seeing all the replies of tweet "+tweetId);
